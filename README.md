@@ -30,6 +30,8 @@ Or via `setup.py`
     
 # Documentation
 
+View the documentation at [http://tpy.readthedocs.org](http://tpy.readthedocs.org)
+
     
 # License
 All of the code contained here is licensed by the GNU GPLv3.

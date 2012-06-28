@@ -8,6 +8,7 @@ Contents:
    :maxdepth: 2
 
    tpy
+   tpy.objects
 
 Indices and tables
 ==================

@@ -29,8 +29,20 @@ import base64
 import json
 import six
 
-class TargetProcess(object):
-    """The base class for a TargetProcess session."""
+class Singleton(type):
+    def __init__(cls, name, bases, dict):
+        super(Singleton, cls).__init__(name, bases, dict)
+        cls.instance = None 
+
+    def __call__(cls,*args,**kw):
+        if cls.instance is None:
+            cls.instance = super(Singleton, cls).__call__(*args, **kw)
+        return cls.instance
+
+class TargetProcess(object):    
+    """The singleton class of our TargetProcess session."""
+    __metaclass__ = Singleton
+    
     DEFAULT_HEADERS = {}
     RETRY_CODES = [502, 503, 504]
     BASE_URL = None
