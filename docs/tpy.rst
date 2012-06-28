@@ -4,7 +4,7 @@ TPy Package
 :mod:`tpy` Package
 ---------------------
 
-.. autmodule:: tpy
+.. automodule:: tpy
     :members:
     :undoc-members:
     :show-inheritance:
