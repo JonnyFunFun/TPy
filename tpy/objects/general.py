@@ -15,16 +15,17 @@
 # along with TPy.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from tpy.objects import *
+from tpy.objects import TargetProcessEntity
+from tpy.objects import generaluser, project, comment, attachment
 
 class General(TargetProcessEntity):
     """Base entity for Assignable, Build, Impediment, Iteration, Program, Project, 
     Release, Test Case, Test Plan, Bug, Feature, Request, Task, Test Plan Run, 
     User Story"""
-    singular = General
-    plural   = Generals
+    singular = 'General'
+    plural   = 'Generals'
     
-    fields = [
+    fields = {
             "Id"            : TargetProcessField(type='id'),
             "Name"          : TargetProcessField(type=str),
             "Description"   : TargetProcessField(type=str),
@@ -37,6 +38,6 @@ class General(TargetProcessEntity):
             "Owner"         : TargetProcessField(type='link',obj=GeneralUser),
             "Project"       : TargetProcessField(type='link',obj=Project),
             "Comments"      : TargetProcessField(type='collection',obj=Comment),
-            "Attachments"   : TargetProcessField(type='collection',obj=Attachments)
-        ]
+            "Attachments"   : TargetProcessField(type='collection',obj=Attachment)
+    }
         

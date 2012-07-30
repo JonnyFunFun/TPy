@@ -15,14 +15,16 @@
 # along with TPy.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from tpy.objects import *
+from tpy.objects import TargetProcessEntity
+from tpy.objects import generaluser, project, comment, attachment, general, program, feature, release, iteration,
+                        userstory, task, bug, testcase, testplan, build, time, revision, customactivity, company
 
 class Project(TargetProcessEntity):
     """Core entity which contains releases, feature, user stories, bugs, etc."""
-    singular = Project
-    plural   = Projects
+    singular = 'Project'
+    plural   = 'Projects'
     
-    fields = [
+    fields = {
             "Id"            : TargetProcessField(type='id'),
             "Name"          : TargetProcessField(type=str),
             "Description"   : TargetProcessField(type=str),
@@ -53,5 +55,5 @@ class Project(TargetProcessEntity):
             "Revisions"     : TargetProcessField(type='collection',obj=Revision),
             "CustomActivities":TargetProcessField(type='collection',obj=CustomActivity),
             "Company"       : TargetProcessField(type='link',obj=Company)
-        ]
+    }
         

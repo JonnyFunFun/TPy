@@ -14,15 +14,14 @@
 # You should have received a copy of the GNU General Public License
 # along with TPy.  If not, see <http://www.gnu.org/licenses/>.
 
-from datetime import datetime
-from tpy.objects import *
+from tpy.objects import TargetProcessEntity
 
 class EntityType(TargetProcessEntity):
     """Represents entity type. For example: Bug, TestCase, Project."""
-    singular = EntityType
-    plural   = EntityTypes
+    singular = 'EntityType'
+    plural   = 'EntityTypes'
     
-    fields = [
+    fields = {
             "Id"            : TargetProcessField(type='id'),
             "Name"          : TargetProcessField(type=str)
-        ]        
+    }        

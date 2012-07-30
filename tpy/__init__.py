@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with TPy.  If not, see <http://www.gnu.org/licenses/>.
 
+import sys, platform
 
 __version__ = '0.0.1'
 
@@ -21,12 +22,14 @@ UA_STRING = '%%s TPy/%s Python/%s %s' % (__version__,
                                           sys.version.split()[0],
                                           platform.platform(True))
 
-from six.moves import (HTTPCookieProcessor, HTTPError, build_opener,
-                       http_cookiejar, http_client, urljoin)
-from urlparse import urlparse
-
+from six.moves import (http_cookiejar, http_client)
+try:
+    from urllib2 import HTTPCookieProcessor, build_opener
+    import urlparseexcept ImportError:
+    from urllib import HttpCookieProcessor, build_opener, urlparse
 import base64
 import json
+import os
 import six
 
 class Singleton(type):
@@ -59,14 +62,14 @@ class TargetProcess(object):
         """
         
         if not api_key and not username:
-            raise TypeError('Either basic or API key credentials must be given.)
+            raise TypeError('Either basic or API key credentials must be given.')
 
         if not api_key and (not isinstance(username, six.string_types) or not isinstance(password, six.string_types)):
             raise TypeError('Username and password must be strings')
             
         self.DEFAULT_HEADERS['User-agent'] = UA_STRING % user_agent
         
-        self.BASE_URL = urlparse(tp_url)
+        self.BASE_URL = urlparse.urlparse(tp_url)
         if not self.BASE_URL.scheme in ['http','https']:
             raise TypeError('Unknown URL scheme')
         

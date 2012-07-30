@@ -14,19 +14,18 @@
 # You should have received a copy of the GNU General Public License
 # along with TPy.  If not, see <http://www.gnu.org/licenses/>.
 
-from datetime import datetime
-from tpy.objects import *
+from tpy.objects import TargetProcessEntity
 
 class Culture(TargetProcessEntity):
     """Object representing application culture"""
-    singular = Culture
-    plural   = Cultures
+    singular = 'Culture'
+    plural   = 'Cultures'
     
-    fields = [
+    fields = {
             "Id"            : TargetProcessField(type='id'),
             "Name"          : TargetProcessField(type=str),
             "DecimalSeparator":TargetProcessField(type=str),
             "ShortDateFormat":TargetProcessField(type=str),
             "LongDateFormat": TargetProcessField(type=str),
             "TimePattern"   : TargetProcessField(type=str)
-        ]        
+    }        

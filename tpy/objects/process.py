@@ -14,18 +14,18 @@
 # You should have received a copy of the GNU General Public License
 # along with TPy.  If not, see <http://www.gnu.org/licenses/>.
 
-from datetime import datetime
-from tpy.objects import *
+from tpy.objects import TargetProcessEntity
+from tpy.objects import entitystate
 
 class Process(TargetProcessEntity):
     """Set of practices that can be applied to a project. It is possible to 
     create custom processes with defined set of Practice."""
-    singular = Process
-    plural   = Processes
+    singular = 'Process'
+    plural   = 'Processes'
     
-    fields = [
+    fields = {
             "Id"            : TargetProcessField(type='id'),
             "Name"          : TargetProcessField(type=str),
             "Description"   : TargetProcessField(type=str),
             "EntityStates"  : TargetProcessField(type='collection',obj=EntityState)
-        ]        
+        }  

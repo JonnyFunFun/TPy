@@ -20,6 +20,14 @@ from xml.etree import ElementTree
 class TargetProcessEntity(object):
     """Base class representing an entity within TargetProcess"""
     _id = None
+    base = None
+    singular = None
+    plural = None
+    fields = {}
+    
+    def __init__(self):
+        if self.base is not None:
+            fields.update(base_class.fields)    
     
     @classmethod
     def from_xml(cls, xml, parent=None):
@@ -151,15 +159,23 @@ class TargetProcessField(object):
     def __init__(self, type='uneditable', options=None, **kwargs):
         self.type = type
         self.options = options
-        self.editable = kwargs.pop('editable', True)
+        self.editable = kwargs.pop('editable', True)        self.getable = kwargs.pop('getable', True)
         self.null = kwargs.pop('null', False)
         self.obj = kwargs.pop('obj', None)
+        self.enumerations = kwargs.pop('enum', None)
+        
+    def __set__(self, instance, value):
+        # TODO: this needs some validation
+        self.value = value
+        
+    def __get__(self, instance, owner):
+        return self.value or self.default
     
     @property
     def default(self):
         """Return the default value for this data type (e.g. '' or [])"""
 
-        if self.type in ('id', 'uneditable') or self.null:
+        if self.type in ('id', 'uneditable', 'enum') or self.null:
             return None
         elif self.type == 'collection':
             return []
@@ -171,8 +187,12 @@ class TargetProcessField(object):
             return self.type()
     
     @property
+    def is_getable(self):
+        """Boolean flag for whether not this field is receivable from the API"""
+        return self.getable
+    
+    @property
     def is_editable(self):
         """Boolean flag for whether or not this field is editable"""
-        
         return self.type not in ('id', 'collection') and self.editable
         

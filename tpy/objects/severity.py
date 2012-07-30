@@ -14,17 +14,16 @@
 # You should have received a copy of the GNU General Public License
 # along with TPy.  If not, see <http://www.gnu.org/licenses/>.
 
-from datetime import datetime
-from tpy.objects import *
+from tpy.objects import TargetProcessEntity
 
 class Severity(TargetProcessEntity):
     """Severity of a bug"""
-    singular = Severity
-    plural   = Severities
+    singular = 'Severity'
+    plural   = 'Severities'
     
-    fields = [
+    fields = {
             "Id"            : TargetProcessField(type='id'),
             "Name"          : TargetProcessField(type=str),
             "Importance"    : TargetProcessField(type=int),
             "IsDefault"     : TargetProcessField(type=bool)
-        ]        
+    }        
