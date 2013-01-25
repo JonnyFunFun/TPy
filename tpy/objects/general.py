@@ -16,7 +16,7 @@
 
 from datetime import datetime
 from tpy.objects import TargetProcessEntity
-from tpy.objects import generaluser, project, comment, attachment
+from tpy.objects import generaluser, project, comment, attachment, entitytype
 
 class General(TargetProcessEntity):
     """Base entity for Assignable, Build, Impediment, Iteration, Program, Project, 
@@ -26,18 +26,26 @@ class General(TargetProcessEntity):
     plural   = 'Generals'
     
     fields = {
-            "Id"            : TargetProcessField(type='id'),
-            "Name"          : TargetProcessField(type=str),
-            "Description"   : TargetProcessField(type=str),
-            "StartDate"     : TargetProcessField(type=datetime,editable=False,null=True),
-            "EndDate"       : TargetProcessField(type=datetime,editable=False,null=True),
-            "CreateDate"    : TargetProcessField(type=datetime,editable=False,null=True),
-            "ModifyDate"    : TargetProcessField(type=datetime,editable=False,null=True),
-            "LastCommentDate":TargetProcessField(type=datetime,editable=False,null=True),
-            "Tags"          : TargetProcessField(type=str,null=True),
-            "Owner"         : TargetProcessField(type='link',obj=GeneralUser),
-            "Project"       : TargetProcessField(type='link',obj=Project),
-            "Comments"      : TargetProcessField(type='collection',obj=Comment),
-            "Attachments"   : TargetProcessField(type='collection',obj=Attachment)
+            "Id"            	: TargetProcessField(type='id'),
+            "Name"          	: TargetProcessField(type=str),
+            "Description"   	: TargetProcessField(type=str),
+            "StartDate"     	: TargetProcessField(type=datetime,null=True),
+            "EndDate"       	: TargetProcessField(type=datetime,null=True),
+            "CreateDate"    	: TargetProcessField(type=datetime,editable=False,null=True),
+            "ModifyDate"    	: TargetProcessField(type=datetime,null=True),
+            "LastCommentDate"	: TargetProcessField(type=datetime,null=True),
+            "Tags"          	: TargetProcessField(type=str,null=True),
+			"NumericPriority"	: TargetProcessField(type=int),
+			"EntityType"		: TargetProcessField(type='link',obj=EntityType),
+            "Owner"         	: TargetProcessField(type='link',obj=GeneralUser),
+			"LastCommentedUser"	: TargetProcessField(type='link',obj=GeneralUser),
+            "Project"       	: TargetProcessField(type='link',obj=Project),
+			"CustomFields"		: TargetProcessField(type='collection',obj=CustomField),
+            "Comments"      	: TargetProcessField(type='collection',obj=Comment),
+			"Messages"			: TargetProcessField(type='collection',obj=Message,editable=False),
+			"RelatedRequests"	: TargetProcessField(type='collection',obj=Request),
+			"TagObjects"		: TargetProcessField(type='collection',obj=Tag),
+            "Attachments"   	: TargetProcessField(type='collection',obj=Attachment),
+			"Histories"			: TargetProcessField(type='collection',obj=History)
     }
         

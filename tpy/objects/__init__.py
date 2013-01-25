@@ -14,7 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with TPy.  If not, see <http://www.gnu.org/licenses/>.
 
+from datetime import datetime
 from tpy import TargetProcess
+from tpy.exceptions import *
 from xml.etree import ElementTree
 
 class TargetProcessEntity(object):
@@ -24,10 +26,19 @@ class TargetProcessEntity(object):
     singular = None
     plural = None
     fields = {}
-    
+    _is_dirty = False
+
     def __init__(self):
         if self.base is not None:
-            fields.update(base_class.fields)    
+            self.fields.update(self.base.fields)
+
+    def __setattr__(self, item, value):
+        self._is_dirty = True
+        super(self,object).__setattr__(item, value)
+
+    @property
+    def is_dirty(self):
+        return self._is_dirty
     
     @classmethod
     def from_xml(cls, xml, parent=None):
@@ -144,12 +155,12 @@ class TargetProcessEntity(object):
         xml = self.save_xml()
         xml_str = ElementTree.tostring(xml)
         
-        if not _id:
+        if not self._id:
             # We're a new object
             resp = TargetProcess.request(self.plural, method='POST', xml=xml_str)
         else:
             # Doing an update
-            resp = TargetProcess.request('%s/%s' % [self.plural, self._id], method='POST', xml=xml_str)
+            resp = TargetProcess.request('%s/%s' % {self.plural, self._id}, method='POST', xml=xml_str)
         new = self.from_xml(resp)
         self.__dict__ = new.__dict__
     
@@ -159,15 +170,29 @@ class TargetProcessField(object):
     def __init__(self, type='uneditable', options=None, **kwargs):
         self.type = type
         self.options = options
-        self.editable = kwargs.pop('editable', True)        self.getable = kwargs.pop('getable', True)
+        self.editable = kwargs.pop('editable', True)
+        self.getable = kwargs.pop('getable', True)
         self.null = kwargs.pop('null', False)
         self.obj = kwargs.pop('obj', None)
         self.enumerations = kwargs.pop('enum', None)
         
     def __set__(self, instance, value):
-        # TODO: this needs some validation
+        # we obviously cannot edit something that isn't editable
+        if not self.editable:
+            raise ReadOnlyAttributeException(None)
+        # validation
+        if type(value) == str and self.type not in [str, object, 'enum']:
+            raise TypeError()
+        elif type(value) == int and self.type not in [str, 'id', int, object]:
+            raise TypeError()
+        if self.type is 'enum' and value not in self.enumerations:
+            raise ValueError()
+        if value is None and not self.null:
+            raise TypeError()
+        if self.type is 'collection' and type(value) is not dict:
+            raise TypeError()
         self.value = value
-        
+
     def __get__(self, instance, owner):
         return self.value or self.default
     

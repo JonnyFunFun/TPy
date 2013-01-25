@@ -14,18 +14,19 @@
 # You should have received a copy of the GNU General Public License
 # along with TPy.  If not, see <http://www.gnu.org/licenses/>.
 
+from datetime import datetime
 from tpy.objects import TargetProcessEntity
 
 class Culture(TargetProcessEntity):
-    """Object representing application culture"""
+    """Culture which was selected in application. Affects date formats and decimal separator."""
     singular = 'Culture'
     plural   = 'Cultures'
     
     fields = {
-            "Id"            : TargetProcessField(type='id'),
-            "Name"          : TargetProcessField(type=str),
-            "DecimalSeparator":TargetProcessField(type=str),
-            "ShortDateFormat":TargetProcessField(type=str),
-            "LongDateFormat": TargetProcessField(type=str),
-            "TimePattern"   : TargetProcessField(type=str)
-    }        
+            "Id"		    	: TargetProcessField(type='id'),
+			"Name"				: TargetProcessField(type=str,editable=False),
+			"DecimalSeparator"	: TargetProcessField(type=str,editable=False),
+			"ShortDateFormat"	: TargetProcessField(type=str,editable=False),
+			"LongDateFormat"	: TargetProcessField(type=str,editable=False),
+			"TimePattern"		: TargetProcessField(type=str,editable=False)
+    }

@@ -33,7 +33,7 @@ class Assignable(TargetProcessEntity):
             "TimeSpent"	    : TargetProcessField(type=int,editable=False),
             "TimeRemain"	: TargetProcessField(type=int,editable=False),
             "LeadTime"		: TargetProcessField(type=int,editable=False),
-            "CycleTime"	: TargetProcessField(type=int,editable=False),
+            "CycleTime"		: TargetProcessField(type=int,editable=False),
             "Release"       : TargetProcessField(type='link',obj=Release),
             "Iteration"     : TargetProcessField(type='link',obj=Iteration),
             "Team"          : TargetProcessField(type='link',obj=Team),

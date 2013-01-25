@@ -28,4 +28,13 @@ class TPyException(Exception):
         return self.message
         
 class AuthenticationException(TPyException):
-    """Exception thrown when authentication errors are encountered.
+    """Exception thrown when authentication errors are encountered."""
+    pass
+
+class InvalidOperationException(TPyException):
+    """Exception thrown when we attempt to perform an operation that we can't."""
+    pass
+	
+class ReadOnlyAttributeException(TPyException):
+    """Exception thrown when changes are amde to a read-only object attribute."""
+    pass
