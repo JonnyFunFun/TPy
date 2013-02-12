@@ -1,5 +1,7 @@
 # TPy
 
+[![Build Status](https://travis-ci.org/JonnyFunFun/TPy.png?branch=master)](https://travis-ci.org/JonnyFunFun/TPy)
+
 TPy is a Python wrapper for the [TargetProcess](http://www.targetprocess.com/) API.  
 It is designed to make interfacing with the REST API easier.
 
