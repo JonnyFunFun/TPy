@@ -1,4 +1,4 @@
-import re
+import re, sys
 try:
     from setuptools import setup
 except ImportError:
@@ -8,6 +8,10 @@ except ImportError:
 version = re.search("__version__ = '([^']+)'",
                     open('tpy/__init__.py').read()).group(1)
 
+install_requires = ["six"]
+
+if sys.version_info < (2, 6):
+	install_requires.append("simplejson")
 
 setup(
     name='tpy',
@@ -34,4 +38,5 @@ setup(
     keywords=['api', 'targetprocess'],
     packages=['tpy'],
     package_data={'': ['COPYING'], 'tpy': ['*.cfg']},
-    install_requires=['six'])
+    install_requires=install_requires,
+	test_suite="tests.get_tests")

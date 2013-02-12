@@ -35,17 +35,23 @@ import six
 
 class Singleton(type):
     def __init__(cls, name, bases, dict):
+        print "init"
         super(Singleton, cls).__init__(name, bases, dict)
-        cls.instance = None 
+        cls.instance = None
 
     def __call__(cls,*args,**kw):
+        print "call"
         if cls.instance is None:
             cls.instance = super(Singleton, cls).__call__(*args, **kw)
         return cls.instance
 
-class TargetProcess(object):    
-    """The singleton class of our TargetProcess session."""
-    __metaclass__ = Singleton
+    def __getattr__(self, item):
+        print "getattr %s" % item
+
+    def __del__(self):
+		cls.instance = None
+
+class TargetProcess(object):
 
     _username = None
     _password = None
@@ -83,7 +89,7 @@ class TargetProcess(object):
             raise TypeError('Unknown URL scheme')
         
         if not api_key:
-            self.DEFAULT_HEADERS['Authorization'] = 'Basic %s' % base64.b64encode(username+password)
+            self.DEFAULT_HEADERS['Authorization'] = 'Basic: %s' % base64.b64encode(username+':'+password)
 
         _cookie_jar = http_cookiejar.CookieJar()
         self._opener = build_opener(HTTPCookieProcessor(_cookie_jar))
@@ -99,4 +105,3 @@ class TargetProcess(object):
         self = TargetProcess()
         if not self._api_key or self._username:
             raise TypeError('Either basic or API key credentials must be given.')
-        

@@ -15,7 +15,7 @@
 # along with TPy.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from tpy.objects import TargetProcessEntity
+from tpy.objects import TargetProcessEntity, TargetProcessField
 from tpy.objects import generaluser, project, comment, attachment, entitytype
 
 class General(TargetProcessEntity):
