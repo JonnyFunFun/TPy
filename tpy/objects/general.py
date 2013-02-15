@@ -16,7 +16,14 @@
 
 from datetime import datetime
 from tpy.objects import TargetProcessEntity, TargetProcessField
-from tpy.objects import generaluser, project, comment, attachment, entitytype
+from tpy.objects.entitytype import EntityType
+from tpy.objects.generaluser import GeneralUser
+from tpy.objects.project import Project
+from tpy.objects.customfield import CustomField
+from tpy.objects.message import Message
+from tpy.objects.attachment import Attachment
+from tpy.objects.history import History
+
 
 class General(TargetProcessEntity):
     """Base entity for Assignable, Build, Impediment, Iteration, Program, Project, 
@@ -36,6 +43,9 @@ class General(TargetProcessEntity):
             "LastCommentDate"	: TargetProcessField(type=datetime,null=True),
             "Tags"          	: TargetProcessField(type=str,null=True),
 			"NumericPriority"	: TargetProcessField(type=int),
+            "IsNow"             : TargetProcessField(type=bool,editable=False),
+            "IsNext"            : TargetProcessField(type=bool,editable=False),
+            "IsPrevious"        : TargetProcessField(type=bool,editable=False),
 			"EntityType"		: TargetProcessField(type='link',obj=EntityType),
             "Owner"         	: TargetProcessField(type='link',obj=GeneralUser),
 			"LastCommentedUser"	: TargetProcessField(type='link',obj=GeneralUser),
@@ -43,8 +53,9 @@ class General(TargetProcessEntity):
 			"CustomFields"		: TargetProcessField(type='collection',obj=CustomField),
             "Comments"      	: TargetProcessField(type='collection',obj=Comment),
 			"Messages"			: TargetProcessField(type='collection',obj=Message,editable=False),
-			"RelatedRequests"	: TargetProcessField(type='collection',obj=Request),
 			"TagObjects"		: TargetProcessField(type='collection',obj=Tag),
+            "MasterRelations"   : TargetProcessField(type='collection',obj=Relation),
+            "SlaveRelations"    : TargetProcessField(type='collection',obj=Relation),
             "Attachments"   	: TargetProcessField(type='collection',obj=Attachment),
 			"Histories"			: TargetProcessField(type='collection',obj=History)
     }

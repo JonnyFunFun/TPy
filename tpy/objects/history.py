@@ -15,8 +15,10 @@
 # along with TPy.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from tpy.objects import TargetProcessEntity
-from tpy.objects import general, generaluser
+from tpy.objects import TargetProcessEntity, TargetProcessField
+from tpy.objects.general import General
+from tpy.objects.generaluser import GeneralUser
+
 
 class History(TargetProcessEntity):
     """Entity History. Contains information about all major Changes in Entity like changed assignments, updated effort, etc."""
@@ -31,5 +33,5 @@ class History(TargetProcessEntity):
 			"Entity"		: TargetProcessField(type='link',obj=General,editable=False),
 			"InnerEntity"	: TargetProcessField(type='link',obj=General,editable=False),
 			"Modifier"		: TargetProcessField(type='link',obj=GeneralUser,editable=False),
-			"Changes"		: TargetProcessField(type='collection',obj=Changes,editable=False)
+			"Changes"		: TargetProcessField(type='collection',obj=Change,editable=False)
     }

@@ -19,6 +19,7 @@ from tpy import TargetProcess
 from tpy.exceptions import *
 from xml.etree import ElementTree
 
+
 class TargetProcessEntity(object):
     """Base class representing an entity within TargetProcess"""
     _id = None
@@ -34,7 +35,7 @@ class TargetProcessEntity(object):
 
     def __setattr__(self, item, value):
         self._is_dirty = True
-        super(self,object).__setattr__(item, value)
+        super(TargetProcessEntity, self).__setattr__(item, value)
 
     @property
     def is_dirty(self):
@@ -175,27 +176,61 @@ class TargetProcessField(object):
         self.null = kwargs.pop('null', False)
         self.obj = kwargs.pop('obj', None)
         self.enumerations = kwargs.pop('enum', None)
-        
-    def __set__(self, instance, value):
-        # we obviously cannot edit something that isn't editable
-        if not self.editable:
-            raise ReadOnlyAttributeException(None)
-        # validation
-        if type(value) == str and self.type not in [str, object, 'enum']:
-            raise TypeError()
-        elif type(value) == int and self.type not in [str, 'id', int, object]:
-            raise TypeError()
-        if self.type is 'enum' and value not in self.enumerations:
-            raise ValueError()
-        if value is None and not self.null:
-            raise TypeError()
-        if self.type is 'collection' and type(value) is not dict:
-            raise TypeError()
-        self.value = value
+        # have to do this to bypass __setattr__ below
+        object.__setattr__(self, 'value', kwargs.pop('value', self.default))
 
-    def __get__(self, instance, owner):
+    def __setattr__(self, key, value):
+        if key is 'value':
+            # we obviously cannot edit something that isn't editable
+            if not self.editable:
+                raise ReadOnlyAttributeException(None)
+            # validation
+            if type(value) == str and self.type not in [str, int, object, 'enum']:
+                raise TypeError()
+            elif type(value) == int and self.type not in [str, 'id', int, object]:
+                raise TypeError()
+            if self.type is 'enum' and value not in self.enumerations:
+                raise ValueError()
+            if value is None and not self.null:
+                raise TypeError()
+            if self.type is 'collection' and type(value) is not dict:
+                raise TypeError()
+            # Type conversion, if necessary
+            if self.type is str:
+                value = str(value)
+            if self.type is int and isinstance(value, str):
+                value = int(value)
+        return super(TargetProcessField, self).__setattr__(key, value)
+
+    def __get__(self):
         return self.value or self.default
-    
+
+    def __str__(self):
+        return str(self.value or self.default)
+
+    def __eq__(self, other):
+        try:
+            if isinstance(other, self.__class__):
+                return self.value == other.value
+            elif isinstance(other, str):
+                if self.type == str:
+                    return self.value == other
+                else:
+                    return self.__str__() == other
+            elif isinstance(other, int):
+                if self.type == int:
+                    return self.value == other
+                else:
+                    return int(self.value) == other
+            elif isinstance(other, datetime):
+                if self.type == datetime:
+                    return self.value == other
+            elif isinstance(other, object):
+                return self.__dict__ == other.__dict__
+        except:
+            return False
+        return super(TargetProcessField, self).__eq__(other)
+
     @property
     def default(self):
         """Return the default value for this data type (e.g. '' or [])"""

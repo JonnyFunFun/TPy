@@ -15,8 +15,9 @@
 # along with TPy.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from tpy.objects import TargetProcessEntity
-from tpy.objects import general, release, iteration, team, priority, entitystate, generaluser, assignment, impediment, time, roleeffort, revision
+from tpy.objects import TargetProcessEntity, TargetProcessField
+from tpy.objects.general import General
+
 
 class Assignable(TargetProcessEntity):
     """Base entity for User Story, Task, Bug, Test Plan Run, Feature, Request. 
