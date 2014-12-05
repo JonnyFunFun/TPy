@@ -1,5 +1,5 @@
 # This file is part of the TPy TargetProcess API Wrapper.
-# Copyright (C) 2012 Jonathan Enzinna
+# Copyright (C) 2014 Jonathan Enzinna
 #
 # TPy is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
