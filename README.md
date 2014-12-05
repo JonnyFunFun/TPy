@@ -5,6 +5,9 @@
 TPy is a Python wrapper for the [TargetProcess](http://www.targetprocess.com/) API.  
 It is designed to make interfacing with the REST API easier.
 
+*Please note:* TPy is currently under active development.  Features outlined in this README are incomplete, and 
+instead represent the final vision for the wrapper.  This library is not ready for use.
+
 ```python
 import tpy
 # Authenticate with an API key...
